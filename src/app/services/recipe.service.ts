@@ -55,12 +55,11 @@ export class RecipeService {
     );
   }
 
-  editRecipeWithIndex(index:number, recipe: Recipe){
-    this.editRecipe(this.getRecipe(index).id,recipe);
+  editRecipeWithIndex(index: number, recipe: Recipe){
+    this.editRecipe(this.getRecipe(index).id, recipe);
   }
 
   editRecipe(id: string, recipe: Recipe) {
-    // this.recipies[index] = recipe;
     delete recipe.id;
     this.http.patch(environment.firebasePath + '/recipes/' + id + '.json', recipe)
     .subscribe( result => {

@@ -21,6 +21,7 @@ export interface AuthResponseData {
 export class AuthService {
 
   user = new BehaviorSubject<User>(null);
+  tokenExpirationTimer: any;
 
   constructor(private http: HttpClient,
               private router: Router) {
@@ -39,6 +40,20 @@ export class AuthService {
     );
   }
 
+  autoLogin() {
+    const storageUser: {id: string, _token: string, _tokenExpirationDate: string} = JSON.parse(localStorage.getItem('J3DM-Home'));
+    if (!storageUser) {
+      return;
+    }
+    const loadedUser = new User('', storageUser.id, storageUser._token, + new Date(storageUser._tokenExpirationDate));
+    if (loadedUser.token) {
+      const expirationTime = new Date(storageUser._tokenExpirationDate).getTime() - new Date().getTime();
+      this.autoLogout(expirationTime);
+      this.user.next(loadedUser);
+    }
+    return;
+  }
+
   login(formEmail: string, formPassword: string) {
     const loginData = {
       email: formEmail,
@@ -54,13 +69,31 @@ export class AuthService {
 
   logout() {
     this.user.next(null);
+    localStorage.removeItem('J3DM-Home');
     this.router.navigate(['']);
+    if (this.tokenExpirationTimer) {
+      clearTimeout(this.tokenExpirationTimer);
+    }
+    this.tokenExpirationTimer = null;
+  }
+
+  autoLogout(expirationDuration: number) {
+    this.tokenExpirationTimer = setTimeout(
+      () => {
+        this.logout();
+      }
+      , expirationDuration
+    );
+
   }
 
   private handleAuthentication(email: string, id: string, token: string, expiresIn: number) {
     const expirationDate = (new Date()).setDate(new Date().getDate() + expiresIn * 1000);
     const user = new User(email, id, token, expirationDate);
     this.user.next(user);
+    this.autoLogout(expiresIn * 1000);
+    delete user.email;
+    localStorage.setItem('J3DM-Home', JSON.stringify(user));
   }
 
   private handleError(errResponse: HttpErrorResponse) {
