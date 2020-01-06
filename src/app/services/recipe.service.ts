@@ -5,9 +5,8 @@ import { Ingredient } from '../models/ingredient.model';
 import { ShoppingListService } from './shopping-list.service';
 import { Subject } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { map, exhaustMap, take } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,17 +17,11 @@ export class RecipeService {
   recipieList = new Subject<Recipe[]>();
 
   constructor(private shoppingListService: ShoppingListService,
-              private http: HttpClient,
-              private authService: AuthService) {
+              private http: HttpClient) {
 
   }
 
-  private recipies: Recipe[] = [
-    new Recipe('A test recipie One', 'This is a recipie test', 'http://lorempixel.com/400/200/food',
-     [new Ingredient('abc', 1), new Ingredient('def', 1)]),
-    new Recipe('A test recipie Two', 'This is a recipie test', 'http://lorempixel.com/400/200/food',
-     [new Ingredient('abc', 1)])
-  ];
+  recipies: Recipe[] = [];
 
   getRecipies() {
     return this.http.get<Recipe[]>(environment.firebasePath + '/recipes.json')
@@ -48,6 +41,7 @@ export class RecipeService {
             );
           }
         }
+        this.recipies = recipeArray;
         return recipeArray;
       })
     ).subscribe( result => this.recipieList.next(result));
@@ -61,14 +55,32 @@ export class RecipeService {
     );
   }
 
-  editRecipe(index: number, recipe: Recipe) {
-    this.recipies[index] = recipe;
-    this.getRecipies();
+  editRecipeWithIndex(index:number, recipe: Recipe){
+    this.editRecipe(this.getRecipe(index).id,recipe);
   }
 
-  deleteRecipe(index: number) {
-    this.recipies.splice(index, 1);
-    this.getRecipies();
+  editRecipe(id: string, recipe: Recipe) {
+    // this.recipies[index] = recipe;
+    delete recipe.id;
+    this.http.patch(environment.firebasePath + '/recipes/' + id + '.json', recipe)
+    .subscribe( result => {
+        console.log(result);
+        this.getRecipies();
+      }
+    );
+  }
+
+  deleteRecipeWithIndex(index: number) {
+    this.deleteRecipe(this.getRecipe(index).id, index);
+  }
+
+  deleteRecipe(id: string, index: number) {
+    this.http.delete(environment.firebasePath + '/recipes/' + id + '.json')
+    .subscribe( result => {
+        console.log(result);
+        this.getRecipies();
+      }
+    );
   }
 
   addIngredientsToShoppingList(ingredients: Ingredient[]) {

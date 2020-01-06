@@ -2,7 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Recipe } from 'src/app/models/recipe.model';
 import { isNullOrUndefined } from 'util';
 import { RecipeService } from 'src/app/services/recipe.service';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-recipie-detail',
@@ -15,7 +15,8 @@ export class RecipieDetailComponent implements OnInit {
   id: number;
 
   constructor(private recipeService: RecipeService,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private router: Router) { }
 
   ngOnInit() {
     this.route.params
@@ -25,11 +26,16 @@ export class RecipieDetailComponent implements OnInit {
       });
   }
 
-  check(){
+  check() {
     return isNullOrUndefined(this.detailedRecipe);
   }
 
   addIngredientsToShoppingList() {
     this.recipeService.addIngredientsToShoppingList(this.detailedRecipe.ingredients);
+  }
+
+  deleteRecipe() {
+    this.recipeService.deleteRecipeWithIndex(this.id);
+    this.router.navigate(['recipies']);
   }
 }

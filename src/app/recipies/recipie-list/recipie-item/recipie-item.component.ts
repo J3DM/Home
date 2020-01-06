@@ -6,7 +6,7 @@ import { Recipe } from 'src/app/models/recipe.model';
   templateUrl: './recipie-item.component.html',
   styleUrls: ['./recipie-item.component.css']
 })
-export class RecipieItemComponent{
+export class RecipieItemComponent {
 
   @Input() itemRecipe: Recipe;
   @Input() index: number;

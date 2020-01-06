@@ -2,7 +2,7 @@ import { Ingredient } from './ingredient.model';
 
 export class Recipe {
 
-  private id: string;
+  public id: string;
   public name: string;
   public description: string;
   public imagePath: string;
@@ -14,14 +14,6 @@ export class Recipe {
     this.description = description;
     this.imagePath = imagePath;
     this.ingredients = ingredients;
-  }
-
-  setId(key: string) {
-    this.id = key;
-  }
-
-  getId() {
-    return this.id;
   }
 
 }
