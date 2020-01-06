@@ -1,0 +1,8 @@
+<div class="col-xs-12">
+  <app-recipie-item
+    *ngFor="let recipe of recipieList; let i = index"
+    [itemRecipe]="recipe"
+    [index]='i'
+   ></app-recipie-item>
+</div>
+
