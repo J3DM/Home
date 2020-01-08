@@ -63,7 +63,6 @@ export class RecipeService {
     delete recipe.id;
     this.http.patch(environment.firebasePath + '/recipes/' + id + '.json', recipe)
     .subscribe( result => {
-        console.log(result);
         this.getRecipies();
       }
     );

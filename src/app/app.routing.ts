@@ -6,17 +6,19 @@ import { RecipeStartComponent } from './recipies/recipe-start/recipe-start.compo
 import { RecipieDetailComponent } from './recipies/recipie-detail/recipie-detail.component';
 import { RecipeEditComponent } from './recipies/recipe-edit/recipe-edit.component';
 import { AuthComponent } from './auth/auth.component';
+import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth.guard';
 
 const appRoutes: Routes = [
-  { path: '', redirectTo: '/auth', pathMatch: 'full' },
+  { path: '', redirectTo: '/recipies', pathMatch: 'full' },
   { path: 'auth', component: AuthComponent, pathMatch: 'full' },
-  { path: 'recipies', component: RecipiesComponent, children: [
+  { path: 'recipies', component: RecipiesComponent, canActivate: [AuthGuard], children: [
     {path: '', component: RecipeStartComponent},
     {path: 'new', component: RecipeEditComponent},
     {path: ':id', component: RecipieDetailComponent},
     {path: ':id/edit', component: RecipeEditComponent}
   ]},
-  { path: 'shopping-list', component: ShoppingListComponent },
+  { path: 'shopping-list', component: ShoppingListComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

@@ -70,7 +70,7 @@ export class AuthService {
   logout() {
     this.user.next(null);
     localStorage.removeItem('J3DM-Home');
-    this.router.navigate(['']);
+    this.router.navigate(['/auth']);
     if (this.tokenExpirationTimer) {
       clearTimeout(this.tokenExpirationTimer);
     }
