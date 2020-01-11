@@ -19,7 +19,7 @@ import { RecipeStartComponent } from './recipies/recipe-start/recipe-start.compo
 import { RecipeEditComponent } from './recipies/recipe-edit/recipe-edit.component';
 import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './services/auth.service';
-import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component'
+import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './shared/auth-interceptor.service';
 
 @NgModule({

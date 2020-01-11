@@ -55,7 +55,7 @@ export class RecipeService {
     );
   }
 
-  editRecipeWithIndex(index: number, recipe: Recipe){
+  editRecipeWithIndex(index: number, recipe: Recipe) {
     this.editRecipe(this.getRecipe(index).id, recipe);
   }
 
