@@ -27,12 +27,14 @@ export class RecipeService {
     return this.http.get<Recipe[]>(environment.firebasePath + '/recipes.json')
     .pipe(
       map(resultData => {
-        var recipeArray = [];
+        let recipeArray = [];
         for (const key in resultData) {
           if (resultData.hasOwnProperty(key)) {
             recipeArray.push(
               new Recipe(
                 resultData[key].name,
+                resultData[key].classification,
+                resultData[key].difficulty,
                 resultData[key].description,
                 resultData[key].imagePath,
                 resultData[key].ingredients,
@@ -75,7 +77,6 @@ export class RecipeService {
   deleteRecipe(id: string, index: number) {
     this.http.delete(environment.firebasePath + '/recipes/' + id + '.json')
     .subscribe( result => {
-        console.log(result);
         this.getRecipies();
       }
     );

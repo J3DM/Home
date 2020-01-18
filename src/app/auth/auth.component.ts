@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 
 export class AuthComponent implements OnInit {
   loginForm: FormGroup;
-  loginAction = false;
+  loginAction = true;
   isLoading = false;
   error: string = null;
 

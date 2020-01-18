@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { Ingredient } from 'src/app/models/ingredient.model';
 import { Recipe } from 'src/app/models/recipe.model';
+import { Description } from 'src/app/models/description.model';
 
 @Component({
   selector: 'app-recipe-edit',
@@ -32,17 +33,36 @@ export class RecipeEditComponent implements OnInit {
 
   private initForm() {
     let recipeName = '';
+    let recipeClassification = '';
+    let recipeDifficulty = 0;
     let recipeImage = '';
-    let recipeDescription = '';
+    const recipeDescription = new FormArray([]);
     const ingredientList = new FormArray([]);
 
     if (this.editMode) {
       const recipe: Recipe = this.recipeService.getRecipe(this.id);
+
       recipeName = recipe.name;
       recipeImage = recipe.imagePath;
-      recipeDescription = recipe.description;
+      recipeClassification = recipe.classification;
+      recipeDifficulty = recipe.difficulty;
+
+
+      if (recipe.description) {
+        recipe.description.forEach(
+          (description: Description) => {
+            recipeDescription.push(
+              new FormGroup(
+                {
+                  step: new FormControl(description.step)
+                }
+              )
+            );
+          }
+        );
+      }
+
       if (recipe.ingredients) {
-        console.log('añadiendo ingredientes guardados');
         recipe.ingredients.forEach(
           (ingredient: Ingredient) => {
             ingredientList.push(
@@ -60,13 +80,28 @@ export class RecipeEditComponent implements OnInit {
     this.recipeForm = new FormGroup({
       name: new FormControl(recipeName, Validators.required),
       imagePath: new FormControl(recipeImage, Validators.required),
-      description: new FormControl(recipeDescription, Validators.required),
+      difficulty: new FormControl(recipeDifficulty, [Validators.min(0), Validators.max(3)]),
+      classification: new FormControl(recipeClassification),
+      description: recipeDescription,
       ingredients: ingredientList
     });
   }
 
   get formControls() {
     return (this.recipeForm.get('ingredients') as FormArray).controls;
+  }
+
+  get descriptionControls() {
+    return (this.recipeForm.get('description') as FormArray).controls;
+  }
+
+  addDescription() {
+    const descriptionFormArray = this.recipeForm.get('description') as FormArray;
+    descriptionFormArray.push(
+      new FormGroup({
+        step: new FormControl(null)
+      })
+    );
   }
 
   addIngredient() {
@@ -91,6 +126,10 @@ export class RecipeEditComponent implements OnInit {
   onDelete() {
     this.recipeService.deleteRecipeWithIndex(this.id);
     this.router.navigate(['recipies']);
+  }
+
+  onDeleteDescription(index: number) {
+    (this.recipeForm.get('description') as FormArray).removeAt(index);
   }
 
   onDeleteIngredient(index: number) {

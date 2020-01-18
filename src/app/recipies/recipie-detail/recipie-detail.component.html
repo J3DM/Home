@@ -20,13 +20,24 @@
     </div>
   </div>
   <div class="row">
+    <div class="col-xs-6">
+      <h4>Difficulty: {{detailedRecipe.difficulty || "0" }}</h4>
+    </div>
+    <div class="col-xs-6">
+      <h4>Classification: {{detailedRecipe.classification || "none" }}</h4>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-xs-12">
-        {{detailedRecipe.description|| ""}}
+      <h4>Decription</h4>
+      <ul class="list-group-item">
+        <li *ngFor="let description of detailedRecipe.description">{{description.step || "" }}</li>
+      </ul>
     </div>
   </div>
   <div class="row">
       <div class="col-xs-12">
-        Ingredients
+        <h4>Ingredients</h4>
         <ul class="list-group-item">
           <li *ngFor="let ingredient of detailedRecipe.ingredients">{{ingredient.name}} - {{ingredient.amount}}</li>
         </ul>

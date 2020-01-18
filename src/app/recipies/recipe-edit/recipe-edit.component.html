@@ -32,6 +32,30 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
+            <label for="classification">Clasiffication</label>
+            <input
+              type="number"
+              id="classification"
+              class="form-control"
+              formControlName=classification>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
+            <label for="diffitulty">Difficulty</label>
+            <input
+              type="number"
+              id="diffitulty"
+              class="form-control"
+              formControlName=difficulty>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12">
+          <div class="form-group">
             <label for="name">Image Url</label>
             <input
               type="text"
@@ -42,7 +66,7 @@
           </div>
         </div>
         <div class="col-xs-12">
-          <img class="image-responsive" [src]="imagePath.value">
+          <img class="image-responsive" [src]="imagePath.value" style="max-height: 150px;">
         </div>
       </div>
       <div class="row">
@@ -53,13 +77,31 @@
       <div class="row">
         <div class="col-xs-12">
           <div class="form-group">
-            <label for="name">Description</label>
-            <textarea
-              type="text"
-              id="description"
-              class="form-control"
-              rows="6"
-              formControlName=description></textarea>
+            <div class="col-xs-12" formArrayName="description">
+              <div class="row"
+              *ngFor="let descriptionCtrl of descriptionControls; let j = index"
+              [formGroupName]="j">
+                <div class="col-xs-10">
+                  <label for="name">Description step {{j+1}}</label>
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    rows="6"
+                    formControlName=step></textarea>
+                </div>
+                <div class="col-xs-2">
+                  <button class="btn btn-danger" type="button" (click)="onDeleteDescription(j)">X</button>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <hr>
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button class="btn btn-success" type="button" (click)="addDescription()">Add description</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
