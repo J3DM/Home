@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { User } from '../models/user.model';
 import { Subscription } from 'rxjs';
@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   collapsed = true;
   userAuthenticated = false;
   private userSub: Subscription;
+  mobile: boolean;
 
   constructor(private authService: AuthService) { }
 
@@ -21,6 +22,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userSub = this.authService.user.subscribe( user => {
       this.userAuthenticated = !user ? false : true;
     });
+    this.mobile = window.innerWidth < 426;
   }
 
 
@@ -30,5 +32,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
    logout(){
      this.authService.logout();
+   }
+
+   @HostListener('window:resize', [])
+   onResize() {
+     if (window.innerWidth < 426) {
+       this.mobile = true;
+     } else {
+       this.mobile = false;
+     }
    }
 }
