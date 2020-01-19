@@ -21,6 +21,7 @@ import { AuthComponent } from './auth/auth.component';
 import { AuthService } from './services/auth.service';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './shared/auth-interceptor.service';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { AuthInterceptorService } from './shared/auth-interceptor.service';
     RecipeStartComponent,
     RecipeEditComponent,
     AuthComponent,
-    LoadingSpinnerComponent
+    LoadingSpinnerComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,

@@ -79,7 +79,7 @@ export class RecipeEditComponent implements OnInit {
     }
     this.recipeForm = new FormGroup({
       name: new FormControl(recipeName, Validators.required),
-      imagePath: new FormControl(recipeImage, Validators.required),
+      imagePath: new FormControl(recipeImage),
       difficulty: new FormControl(recipeDifficulty, [Validators.min(0), Validators.max(3)]),
       classification: new FormControl(recipeClassification),
       description: recipeDescription,

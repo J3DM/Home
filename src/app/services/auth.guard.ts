@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { map, take } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Injectable({providedIn: 'root'})
 export class AuthGuard implements CanActivate {
@@ -19,7 +20,7 @@ export class AuthGuard implements CanActivate {
         map(
           (user) => {
             const isAuthenticated = !!user;
-            if (isAuthenticated) {
+            if (isAuthenticated || !environment.production) {
               return true;
             }
             return this.router.createUrlTree(['/auth']);
