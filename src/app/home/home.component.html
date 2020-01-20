@@ -5,8 +5,17 @@
   <div *ngIf="mobile" class="col-xs-12">
     <h3>Actions</h3>
     <ul>
-      <li>
+      <li *ngIf="!userAuthenticated">
         <a routerLink="/auth">Login / Register</a>
+      </li>
+      <li>
+        <a routerLink="/recipies">Recipies</a>
+      </li>
+      <li *ngIf="userAuthenticated">
+        <a routerLink="/shopping-list" >Shopping List</a>
+      </li>
+      <li *ngIf="userAuthenticated && mobile">
+        <a (click)="logout()">Logout</a>
       </li>
     </ul>
   </div>

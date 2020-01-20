@@ -50,7 +50,6 @@ export class AuthComponent implements OnInit {
     }
     authObs.subscribe(
       resData => {
-        console.log(resData);
         this.apiResponseReceived();
         this.router.navigate(['/recipies']);
       },
