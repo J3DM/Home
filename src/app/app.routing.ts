@@ -17,7 +17,8 @@ const appRoutes: Routes = [
     {path: '', component: RecipeStartComponent},
     {path: 'new', component: RecipeEditComponent, canActivate: [AuthGuard]},
     {path: ':id', component: RecipieDetailComponent},
-    {path: ':id/edit', component: RecipeEditComponent, canActivate: [AuthGuard]}
+    {path: ':id/edit', component: RecipeEditComponent, canActivate: [AuthGuard]},
+    {path: ':id/shared', component: RecipieDetailComponent},
   ]},
   { path: 'shopping-list', component: ShoppingListComponent, canActivate: [AuthGuard] },
 ];

@@ -3,6 +3,7 @@ import { Recipe } from 'src/app/models/recipe.model';
 import { isNullOrUndefined } from 'util';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-recipie-detail',
@@ -12,6 +13,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 export class RecipieDetailComponent implements OnInit {
 
   detailedRecipe: Recipe;
+  subscription: Subscription;
   id: number;
 
   constructor(private recipeService: RecipeService,
@@ -19,11 +21,14 @@ export class RecipieDetailComponent implements OnInit {
               private router: Router) { }
 
   ngOnInit() {
+    this.subscription = this.recipeService.recipeSelected.subscribe(
+      result => this.detailedRecipe = result
+    );
     this.route.params
       .subscribe((params: Params) => {
-        this.id = +params.id;
-        this.detailedRecipe = this.recipeService.getRecipe(this.id);
+        this.recipeService.getRecipe(params.id);
       });
+
   }
 
   check() {

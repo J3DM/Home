@@ -49,6 +49,24 @@ export class RecipeService {
     ).subscribe( result => this.recipieList.next(result));
   }
 
+  getRecipe(id: string) {
+    return this.http.get<Recipe>(environment.firebasePath + '/recipes/' + id + '.json')
+    .pipe(
+      map(resultData => {
+        const recipe = new Recipe(
+          resultData.name,
+          resultData.classification,
+          resultData.difficulty,
+          resultData.description,
+          resultData.imagePath,
+          resultData.ingredients,
+          id
+        );
+        return recipe;
+      })
+    ).subscribe( result => this.recipeSelected.next(result));
+  }
+
   addRecipe(newRecipe: Recipe) {
     this.http.post(environment.firebasePath + '/recipes.json', newRecipe)
     .subscribe( result => {
@@ -58,7 +76,7 @@ export class RecipeService {
   }
 
   editRecipeWithIndex(index: number, recipe: Recipe) {
-    this.editRecipe(this.getRecipe(index).id, recipe);
+    this.editRecipe(this.getIndexRecipe(index).id, recipe);
   }
 
   editRecipe(id: string, recipe: Recipe) {
@@ -71,10 +89,10 @@ export class RecipeService {
   }
 
   deleteRecipeWithIndex(index: number) {
-    this.deleteRecipe(this.getRecipe(index).id, index);
+    this.deleteRecipe(this.getIndexRecipe(index).id);
   }
 
-  deleteRecipe(id: string, index: number) {
+  deleteRecipe(id: string) {
     this.http.delete(environment.firebasePath + '/recipes/' + id + '.json')
     .subscribe( result => {
         this.getRecipies();
@@ -86,7 +104,7 @@ export class RecipeService {
     this.shoppingListService.addItems(ingredients);
   }
 
-  getRecipe(id: number) {
+  getIndexRecipe(id: number) {
     return this.recipies[id];
   }
 }
