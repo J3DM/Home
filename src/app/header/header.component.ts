@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   collapsed = true;
-  userAuthenticated = false;
+  userAuthenticated: User;
   private userSub: Subscription;
   mobile: boolean;
 
@@ -20,7 +20,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.userSub = this.authService.user.subscribe( user => {
-      this.userAuthenticated = !user ? false : true;
+      this.userAuthenticated = user;
     });
     this.mobile = window.innerWidth < 426;
   }
@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.userSub.unsubscribe();
    }
 
-   logout(){
+   logout() {
      this.authService.logout();
    }
 

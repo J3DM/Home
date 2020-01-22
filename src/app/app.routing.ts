@@ -6,7 +6,6 @@ import { RecipeStartComponent } from './recipies/recipe-start/recipe-start.compo
 import { RecipieDetailComponent } from './recipies/recipie-detail/recipie-detail.component';
 import { RecipeEditComponent } from './recipies/recipe-edit/recipe-edit.component';
 import { AuthComponent } from './auth/auth.component';
-import { AuthService } from './services/auth.service';
 import { AuthGuard } from './services/auth.guard';
 import { HomeComponent } from './home/home.component';
 
@@ -14,11 +13,11 @@ const appRoutes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent, pathMatch: 'full' },
   { path: 'auth', component: AuthComponent, pathMatch: 'full' },
-  { path: 'recipies', component: RecipiesComponent, canActivate: [AuthGuard], children: [
+  { path: 'recipies', component: RecipiesComponent,  children: [
     {path: '', component: RecipeStartComponent},
-    {path: 'new', component: RecipeEditComponent},
+    {path: 'new', component: RecipeEditComponent, canActivate: [AuthGuard]},
     {path: ':id', component: RecipieDetailComponent},
-    {path: ':id/edit', component: RecipeEditComponent}
+    {path: ':id/edit', component: RecipeEditComponent, canActivate: [AuthGuard]}
   ]},
   { path: 'shopping-list', component: ShoppingListComponent, canActivate: [AuthGuard] },
 ];
