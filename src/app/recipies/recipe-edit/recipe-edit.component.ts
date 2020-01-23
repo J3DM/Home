@@ -31,14 +31,16 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     this.subscription = this.recipeService.recipeSelected.subscribe(
       recipe => {
         this.selectedRecipe = recipe;
-        this.initForm();
       }
     );
     this.route.params.subscribe(
       (params: Params) => {
         this.id = params.id;
         this.editMode = params.id != null;
-        this.recipeService.getRecipe(this.id);
+        if (this.id) {
+          this.recipeService.getRecipe(this.id);
+        }
+        this.initForm();
       }
     );
   }
@@ -49,12 +51,12 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
 
   private initForm() {
     let recipeName = '';
-    let recipeClassification = '';
-    let recipeDifficulty = 0;
     let recipeImage = '';
+    let recipeDifficulty = 0;
+    let recipeClassification = '';
     const recipeDescription = new FormArray([]);
     const ingredientList = new FormArray([]);
-
+    console.log(this.editMode ? "edit" : "new");
     if (this.editMode) {
       //const recipe: Recipe = this.recipeService.getRecipe(this.id);
       const recipe = this.selectedRecipe;
@@ -158,6 +160,6 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   }
 
   check() {
-    return isNullOrUndefined(this.selectedRecipe);
+    return isNullOrUndefined(this.selectedRecipe) && this.editMode;
   }
 }

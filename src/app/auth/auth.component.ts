@@ -26,8 +26,8 @@ export class AuthComponent implements OnInit {
   private initForm() {
     this.loginForm = new FormGroup(
       {
-        email: new FormControl(null, [Validators.email]),
-        password: new FormControl(null, [Validators.required, Validators.minLength(6)])
+        email: new FormControl('', [Validators.email]),
+        password: new FormControl('', [Validators.required, Validators.minLength(6)])
       }
     );
   }

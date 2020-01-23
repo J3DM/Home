@@ -49,7 +49,15 @@ export class RecipeService {
     ).subscribe( result => this.recipieList.next(result));
   }
 
+  checkRecipeList(id: string) {
+    return this.recipies.filter(recipe => recipe.id === id)[0];
+  }
+
   getRecipe(id: string) {
+    const listedRecipe = this.checkRecipeList(id);
+    if (listedRecipe) {
+      return this.recipeSelected.next(listedRecipe);
+    }
     return this.http.get<Recipe>(environment.firebasePath + '/recipes/' + id + '.json')
     .pipe(
       map(resultData => {
@@ -62,6 +70,10 @@ export class RecipeService {
           resultData.ingredients,
           id
         );
+        // if (!listedRecipe) {
+        //   this.recipies.push(recipe);
+        //   this.recipieList.next(this.recipies);
+        // }
         return recipe;
       })
     ).subscribe( result => this.recipeSelected.next(result));
