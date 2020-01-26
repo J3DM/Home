@@ -23,11 +23,11 @@ export class RecipeService {
 
   recipies: Recipe[] = [];
 
-  getRecipies() {
-    return this.http.get<Recipe[]>(environment.firebasePath + '/recipes.json')
+  getRecipies(queryString: string = '') {
+    return this.http.get<Recipe[]>(environment.firebasePath + '/recipes.json' + queryString)
     .pipe(
       map(resultData => {
-        let recipeArray = [];
+        const recipeArray = [];
         for (const key in resultData) {
           if (resultData.hasOwnProperty(key)) {
             recipeArray.push(
@@ -47,6 +47,16 @@ export class RecipeService {
         return recipeArray;
       })
     ).subscribe( result => this.recipieList.next(result));
+  }
+
+  filterRecipes(name: string, classification: string) {
+    classification = classification === null ? '' : classification;
+    name = name === null ? '' : name;
+    if (name === '' && classification === '') {
+      return this.getRecipies();
+    }
+    const queryString = '?orderBy="filter"&startAt="' + name.toUpperCase() + '"&endAt="' + name.toUpperCase() + '\uf8ff"';
+    return this.getRecipies(queryString);
   }
 
   checkRecipeList(id: string) {
@@ -70,16 +80,13 @@ export class RecipeService {
           resultData.ingredients,
           id
         );
-        // if (!listedRecipe) {
-        //   this.recipies.push(recipe);
-        //   this.recipieList.next(this.recipies);
-        // }
         return recipe;
       })
     ).subscribe( result => this.recipeSelected.next(result));
   }
 
   addRecipe(newRecipe: Recipe) {
+    newRecipe.filter = (newRecipe.name).toUpperCase();
     this.http.post(environment.firebasePath + '/recipes.json', newRecipe)
     .subscribe( result => {
         this.getRecipies();
@@ -93,6 +100,7 @@ export class RecipeService {
 
   editRecipe(id: string, recipe: Recipe) {
     delete recipe.id;
+    recipe.filter = (recipe.name).toUpperCase();
     this.http.patch(environment.firebasePath + '/recipes/' + id + '.json', recipe)
     .subscribe( result => {
         this.getRecipies();

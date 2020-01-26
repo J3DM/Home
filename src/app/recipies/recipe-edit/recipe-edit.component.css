@@ -2,3 +2,12 @@ input.ng-invalid.ng-touched
 textarea.ng-invalid.ng-touched {
   border: 1px solid red;
 }
+
+.recipe-section {
+  background-color: darkgray;
+  border-radius: 5px;
+}
+
+.recipe-edit-buttons {
+  margin-top: 1em;
+}

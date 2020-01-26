@@ -1,4 +1,5 @@
 import { Component, OnInit, HostListener } from '@angular/core';
+import { RecipeService } from '../services/recipe.service';
 
 @Component({
   selector: 'app-recipies',
@@ -8,13 +9,20 @@ import { Component, OnInit, HostListener } from '@angular/core';
 export class RecipiesComponent implements OnInit {
 
   mobile: boolean;
-  constructor() {
+
+  nameFilter = null;
+  classifficationFilter = null;
+
+  constructor(private recipeService: RecipeService) {
   }
 
   ngOnInit() {
     this.mobile = window.innerWidth < 992;
   }
 
+  search() {
+    this.recipeService.filterRecipes(this.nameFilter, this.classifficationFilter);
+  }
 
   @HostListener('window:resize', [])
   onResize() {

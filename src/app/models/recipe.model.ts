@@ -7,6 +7,7 @@ export class Recipe {
   public name: string;
   public classification: string;
   public difficulty: number;
+  public filter: string;
   public description: Description[];
   public imagePath: string;
   public ingredients: Ingredient[];
@@ -26,6 +27,7 @@ export class Recipe {
     this.description = description;
     this.imagePath = imagePath;
     this.ingredients = ingredients;
+    this.filter = this.name + ' ' + this.classification;
   }
 
 }

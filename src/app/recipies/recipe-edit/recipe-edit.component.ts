@@ -23,6 +23,8 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
   @Input()selectedRecipe: Recipe;
   subscription: Subscription;
 
+  unitValues = ['gr', 'kg', 'ml', 'l', 'ud', 'cucharada', 'gota', 'pa'];
+
   constructor(private route: ActivatedRoute,
               private router: Router,
               private recipeService: RecipeService) { }
@@ -56,7 +58,6 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     let recipeClassification = '';
     const recipeDescription = new FormArray([]);
     const ingredientList = new FormArray([]);
-    console.log(this.editMode ? "edit" : "new");
     if (this.editMode) {
       //const recipe: Recipe = this.recipeService.getRecipe(this.id);
       const recipe = this.selectedRecipe;
@@ -88,6 +89,7 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
               new FormGroup(
                 {
                   name: new FormControl(ingredient.name, Validators.required),
+                  unit: new FormControl(ingredient.unit, Validators.required),
                   amount: new FormControl(ingredient.amount, [Validators.required, Validators.min(1)])
                 }
               )
@@ -127,8 +129,9 @@ export class RecipeEditComponent implements OnInit, OnDestroy {
     const ingredientFormArray = this.recipeForm.get('ingredients') as FormArray;
     ingredientFormArray.push(
       new FormGroup({
-        name: new FormControl(null, Validators.required),
-        amount: new FormControl(null, [Validators.required, Validators.min(1)])
+        amount: new FormControl(null, [Validators.required, Validators.min(1)]),
+        unit: new FormControl(null, Validators.required),
+        name: new FormControl(null, Validators.required)
       })
     );
   }
