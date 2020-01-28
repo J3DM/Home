@@ -1,56 +1,42 @@
 <div class="row">
 
-  <div class="col-xs-12 col-md-6 col-md-offset-3" >
+  <div class="col-md-6 col-md-offset-3 col-xs-12">
     <div class="alert alert-danger" *ngIf="error!=null">
       <h4>An error ocurred</h4>
       <p>Description: {{error}}</p>
     </div>
-    <div *ngIf="isLoading" >
+
+    <div class="col-xl-12" *ngIf="isLoading" >
       <app-loading-spinner></app-loading-spinner>
     </div>
-    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" *ngIf="!isLoading">
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="email">E-mail</label>
-            <input
-              class="from-control col-xs-12"
-              type="email"
-              id="email"
-              formControlName=email>
-          </div>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input
-              class="from-control col-xs-12"
-              type="password"
-              id="password"
-              formControlName=password>
-          </div>
-        </div>
-      </div>
-      <hr/>
-      <div class="row">
-        <div class="col-xs-12">
-          <div class="form-group text-center">
 
-            <button
-              type="submit"
-              class="btn btn-success"
-              [disabled]="!loginForm.valid"
-             >{{loginAction?'Log in!':'Sing in!'}}</button> |
-            <button
-              type="button"
-              class="btn btn-success"
-              (click)="switchForm()"
-              >{{!loginAction?'Switch to login':'Switch to register'}}</button>
-          </div>
+    <form
+      [formGroup]="loginForm"
+      (ngSubmit)="onSubmit()"
+      *ngIf="!isLoading">
+
+        <div class="form-group">
+          <label for="InputEmail">Password</label>
+          <input type="email" class="form-control" id="InputEmail" placeholder="E-mail" formControlName=email>
         </div>
-      </div>
+
+        <div class="form-group">
+          <label for="InpurPassword">Password</label>
+          <input type="password" class="form-control" id="InpurPassword" placeholder="Password" formControlName=password>
+        </div>
+        <hr/>
+        <div class="form-group text-center">
+          <button
+            type="submit"
+            class="btn btn-success"
+            [disabled]="!loginForm.valid"
+            >{{loginAction?'Log in!':'Sing in!'}}</button> |
+          <button
+            type="button"
+            class="btn btn-success"
+            (click)="switchForm()"
+            >{{!loginAction?'Switch to login':'Switch to register'}}</button>
+        </div>
     </form>
   </div>
 </div>
