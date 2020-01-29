@@ -4,6 +4,7 @@ import { isNullOrUndefined } from 'util';
 import { RecipeService } from 'src/app/services/recipe.service';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-recipie-detail',
@@ -14,15 +15,21 @@ export class RecipieDetailComponent implements OnInit {
 
   detailedRecipe: Recipe;
   subscription: Subscription;
+  authSubscription: Subscription;
   id: number;
+  authenticated: boolean;
 
   constructor(private recipeService: RecipeService,
               private route: ActivatedRoute,
+              private authService: AuthService,
               private router: Router) { }
 
   ngOnInit() {
     this.subscription = this.recipeService.recipeSelected.subscribe(
       result => this.detailedRecipe = result
+    );
+    this.authSubscription = this.authService.user.subscribe(
+      user => this.authenticated = user != null
     );
     this.route.params
       .subscribe((params: Params) => {
