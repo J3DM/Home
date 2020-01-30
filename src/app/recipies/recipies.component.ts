@@ -8,35 +8,17 @@ import { Subscription } from 'rxjs';
   templateUrl: './recipies.component.html',
   styleUrls: ['./recipies.component.css']
 })
-export class RecipiesComponent implements OnInit, OnDestroy {
+export class RecipiesComponent implements OnInit {
 
   mobile: boolean;
 
-  nameFilter = null;
-  classifficationFilter = null;
-  authSubscription: Subscription;
-  authenticated: boolean;
-
-  constructor(private recipeService: RecipeService,
-              private authService: AuthService) {
+  constructor() {
   }
 
   ngOnInit() {
     this.mobile = window.innerWidth < 992;
-    this.authSubscription = this.authService.user.subscribe(
-      (user) => {
-        this.authenticated = user != null;
-      }
-    );
   }
 
-  ngOnDestroy(): void {
-   this.authSubscription.unsubscribe();
-  }
-
-  search() {
-    this.recipeService.filterRecipes(this.nameFilter, this.classifficationFilter);
-  }
 
   @HostListener('window:resize', [])
   onResize() {

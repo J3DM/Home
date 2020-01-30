@@ -22,6 +22,7 @@ import { AuthService } from './services/auth.service';
 import { LoadingSpinnerComponent } from './shared/loading-spinner/loading-spinner.component';
 import { AuthInterceptorService } from './shared/auth-interceptor.service';
 import { HomeComponent } from './home/home.component';
+import { RecipieSearchComponent } from './recipies/recipie-search/recipie-search.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { HomeComponent } from './home/home.component';
     RecipeEditComponent,
     AuthComponent,
     LoadingSpinnerComponent,
-    HomeComponent
+    HomeComponent,
+    RecipieSearchComponent
   ],
   imports: [
     BrowserModule,

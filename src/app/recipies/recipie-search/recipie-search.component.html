@@ -1,0 +1,18 @@
+<form class="col-xl-12 col-xs-12">
+  <div class="form-row">
+    <div class="col-sm-9 col-xs-8">
+      <div class="input-group">
+        <input type="text" class="form-control" [(ngModel)]="nameFilter" placeholder="Recipe name" [ngModelOptions]="{standalone: true}" aria-describedby="search">
+        <span class="input-group-append" aria-describedby="clear">
+          <button id="search" type="submit" class="btn btn-primary btn-block" (click)="search()"><span class="fa fa-search"></span></button>
+        </span>
+        <span class="input-group-append">
+          <button id="clear" type="reset" class="btn btn-warning btn-block"><span class="fa fa-trash"></span> </button>
+        </span>
+      </div>
+    </div>
+    <div class="col-sm-3 col-xs-4">
+      <button class='btn btn-success btn-block' [disabled]="!isAuthenticated" routerLink=new >New Recipe <span class="fa fa-edit"></span></button>
+    </div>
+  </div>
+</form>

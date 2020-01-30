@@ -1,0 +1,7 @@
+.list-group-item{
+  text-decoration: none;
+  color: black;
+}
+.list-group-item:hover{
+  background-color: lightgray;
+}
